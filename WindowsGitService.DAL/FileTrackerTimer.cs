@@ -44,26 +44,26 @@ namespace WindowsGitService.DAL
 
         public void InitilizeTimer()
         {
-            // инициализациия информации о ранее скопированых файлах
+            // initialization of information about previously copied files
             _fileChangesFacade.InitializePreviouslyCopiedFiles();
 
-            // считывание информации о сканируемых папках из App.config
+            // reading information about scanned folders from App.config
             List<FolderElement> folders = _monitoringFolders.GetFolderElements();
 
-            // выделение групп по промежутку мониторинга
+            // allocation of groups according to the monitoring interval
             var timePeriods = folders.GroupBy(m => m.МonitoringPeriod);
 
-            // создание callback пл срабатыванию таймера
+            // creating a callback pl when the timer expires
             TimerCallback timerCallback = new TimerCallback(_fileChangesFacade.MakeFilesCompare);
 
             foreach (var group in timePeriods)
             {
                 List<string> trackingFolders = new List<string>();
 
-                // сбор всех отслеживаемых папок в временной группе
+                // collect all watched folders in a temporary group
                 trackingFolders.AddRange(group.Select(g => g.Path).ToList());
 
-                // создание таймера для каждой временной группы
+                // creating a timer for each time group
                 Timer timer = new Timer(timerCallback, trackingFolders, 0, Int32.Parse(group.Key));
 
                 _timers.Add(timer);
@@ -72,7 +72,7 @@ namespace WindowsGitService.DAL
             // TimerCallback tC = new TimerCallback(ClearTimers);
             // _timers.Add(new Timer(tC, 1, 10000, 50000));
 
-            //  Таймер резервного копирования
+            //  Backup timer
             TimerCallback backupCallback = new TimerCallback(SaveFileState);
             _timers.Add(new Timer(backupCallback, 1, 5000, 100000));
         }
@@ -88,7 +88,7 @@ namespace WindowsGitService.DAL
 
             _fileChangesFacade.SaveCurrentFileVersionState();
 
-            _log.Error("Действующие таймеры уничтожены");
+            _log.Error("Active timers destroyed");
         }
 
         public void SaveFileState(object a = null)

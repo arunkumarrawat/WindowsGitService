@@ -26,7 +26,7 @@ namespace WindowsGitService.DAL
         }
 
         /// <summary>
-        /// Получить список файлов из списка директорий IMonitoringFolders
+        /// Get a list of files from a list of directories IMonitoringFolders
         /// </summary>
         /// <returns></returns>
         public IEnumerable<FileInfo> GetFiles()
@@ -44,7 +44,7 @@ namespace WindowsGitService.DAL
         }
 
         /// <summary>
-        /// Получить список файлов из директории
+        /// Get a list of files from a directory
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
@@ -52,13 +52,13 @@ namespace WindowsGitService.DAL
         {
             if (_fileValidator.IsValidPath(path) == false)
             {
-                _log.Error($"Некорректный путь к директории {path}");
+                _log.Error($"Invalid directory path {path}");
                 throw new ArgumentException(path);
             }
 
             if (Directory.Exists(path) == false)
             {
-                _log.Error($"Директория не существует {path}");
+                _log.Error($"Directory does not exist {path}");
                 throw new ArgumentException(path);
             }
 
@@ -66,7 +66,7 @@ namespace WindowsGitService.DAL
         }
 
         /// <summary>
-        /// Получить список файлов из списка директорий
+        /// Get a list of files from a list of directories
         /// </summary>
         /// <param name="paths"></param>
         /// <returns></returns>
@@ -74,7 +74,7 @@ namespace WindowsGitService.DAL
         {
             if (paths == null)
             {
-                _log.Error($"{nameof(GetFiles)} Передано null значение {paths}");
+                _log.Error($"{nameof(GetFiles)} Passed null value { paths}");
                 throw new ArgumentException(nameof(paths));
             }
 

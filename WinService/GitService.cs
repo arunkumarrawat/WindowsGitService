@@ -21,7 +21,7 @@ namespace WinService
 
         protected override void OnStart(string[] args)
         {
-            _kernel.Get<ILog>().Warn("Старт работы сервиса");
+            _kernel.Get<ILog>().Warn("Service Start");
 
             _timeManager.InitilizeTimer();
 

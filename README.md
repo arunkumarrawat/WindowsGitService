@@ -1,7 +1,7 @@
 # WindowsGitService
-Windows служба для локального контроля версий файлов
+Windows service for local file versioning
 
-Установка:
+Installation:
 
 run Command Prompt as administrator
 

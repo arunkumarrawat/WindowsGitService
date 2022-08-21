@@ -20,20 +20,20 @@ namespace WindowsGitService.DAL.FileManagment
         }
 
         /// <summary>
-        /// Копирует файл в указаную директорию
+        /// Copies a file to the specified directory
         /// </summary>
-        /// <param name="file">Данные о копируемом файле</param>
-        /// <param name="targetDirectoryPath">Целевая папка</param>
+        /// <param name="file">Information about the copied file</param>
+        /// <param name="targetDirectoryPath">Target folder</param>
         public void SaveFileСhanges(IEnumerable<FileViewInfo> files, string targetDirectoryPath = @"C:\Navicon\Temp")
         {
             if (_fileValidator.IsValidPath(targetDirectoryPath) == false)
             {
-                _log.Error($"Путь {targetDirectoryPath} некорректен");
-                throw new ArgumentException("Путь к директории не корректен");
+                _log.Error($"Path {targetDirectoryPath} incorrect");
+                throw new ArgumentException("Directory path is invalid");
             }
             if (files == null)
             {
-                _log.Error($"В метод CopyFile получил null files");
+                _log.Error($"Got null files in CopyFile method");
                 return;
             }
 
@@ -42,24 +42,24 @@ namespace WindowsGitService.DAL.FileManagment
                 CopyFile(file, targetDirectoryPath);
             }
 
-            //_log.Info($"Изменения в файлах записаны в {targetDirectoryPath}");
+            //_log.Info($"File changes are written to {targetDirectoryPath}");
         }
 
         /// <summary>
-        /// Копирует файл в указаную директорию
+        /// Copies a file to the specified directory
         /// </summary>
-        /// <param name="file">Данные о копируемом файле</param>
-        /// <param name="targetDirectoryPath">Целевая папка</param>
+        /// <param name="file">Information about the copied file</param>
+        /// <param name="targetDirectoryPath">Target folder</param>
         public void CopyFile(FileViewInfo file, string targetDirectoryPath = @"C:\Navicon\Temp")
         {
             if (_fileValidator.IsValidPath(targetDirectoryPath) == false)
             {
-                _log.Error($"Путь {targetDirectoryPath} некорректен");
-                throw new ArgumentException("Путь к директории не корректен");
+                _log.Error($"Path {targetDirectoryPath} incorrect");
+                throw new ArgumentException("Directory path is invalid");
             }
             if (file == null)
             {
-                _log.Error($"В метод CopyFile получил null file");
+                _log.Error($"Got null file in CopyFile method");
                 return;
             }
 
@@ -77,7 +77,7 @@ namespace WindowsGitService.DAL.FileManagment
 
             File.Copy(file.FullPath, targetFilePathInfo, true);
 
-            _log.Info($"Файл {file.Name}.{file.Format} версии: {file.Version} записан в {targetDirectoryInfo.FullName}");
+            _log.Info($"File {file.Name}.{file.Format} versions: {file.Version} recorded in {targetDirectoryInfo.FullName}");
         }
 
         public void SaveLastUpdate(List<FileViewInfo> lastVersion, string path = @"C:\Navicon\LastUpdated.txt")

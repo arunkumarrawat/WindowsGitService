@@ -57,7 +57,7 @@ namespace WindowsGitService.DAL
         }
 
         /// <summary>
-        /// Заполняет lastVersion списком начальных данных
+        /// Populates lastVersion with a list of initial data
         /// </summary>
         public void InitializePreviouslyCopiedFiles()
         {
@@ -66,16 +66,16 @@ namespace WindowsGitService.DAL
             if (deserializedProduct != null)
             {
                 _fileChangesTracker.lastVersion = (List<FileViewInfo>)deserializedProduct;
-                _log.Info($"Директор иниц иализировал начальный список из {_fileChangesTracker.lastVersion.Count} ранее скопированых файлов");
+                _log.Info($"The director initialized the initial list from {_fileChangesTracker.lastVersion.Count} previously copied files");
             }
             else
             {
-                _log.Warn("Ранее сканированные файлы отсутствуют");
+                _log.Warn("Previously scanned files are missing");
             }
         }
 
         /// <summary>
-        /// Сохраняет lastVersion списком начальных данных
+        /// Stores lastVersion as a list of initial data
         /// </summary>
         public void SaveCurrentFileVersionState()
         {
@@ -83,45 +83,45 @@ namespace WindowsGitService.DAL
 
             _changedFileSaver.SaveLastUpdate(_fileChangesTracker.lastVersion, path);
 
-            _log.Warn($"Выполненно сохранение данных о файлах в {path}");
+            _log.Warn($"Saved file data to {path}");
         }
 
         /// <summary>
-        /// Выполнение сравнения актуальных файлов с сохраненными в lastVersion данными
-        /// и сохраняет измененные файлы в директории
-        /// сравнивает файлы из всех папок в конфиге
+        /// Comparing actual files with data saved in lastVersion
+        /// and saves the modified files in the directory
+        /// compares files from all folders in config
         /// </summary>
         public void MakeFilesCompare()
         {
-            _log.Warn($"Директор начинает сравнение всех доступных в App.config папок");
+            _log.Warn($"Director starts comparing all folders available in App.config");
 
             IReadOnlyCollection<FileInfo> actualFiles = (IReadOnlyCollection<FileInfo>)_fileAccessor.GetFiles();
 
-            _log.Info($"Директор получил список из {actualFiles.Count} актуальных файлов");
+            _log.Info($"The director received a list of {actualFiles.Count} actual files");
 
             IEnumerable<FileViewInfo> actualViewFiles;
 
             actualViewFiles = _fileModelBuilder.ConvertToFileInfo(actualFiles);
 
-            // _log.Info($"Директор получил преобразование файлов в FileViewInfo");
+            // _log.Info($"Director got file conversion to FileViewInfo");
 
             List<FileViewInfo> changedFiles = (List<FileViewInfo>)_fileChangesTracker.GetChangedFiles(_fileChangesTracker.lastVersion, actualViewFiles);
 
-            _log.Info($"Директор получил список из {changedFiles.Count} измененных файлов");
+            _log.Info($"The director received a list of {changedFiles.Count} changed files");
 
-            // обновление списка "lastversion" актуальных файлов
+            // updating the "lastversion" list of actual files
             changedFiles = _fileChangesTracker.UpdateLastVersion(changedFiles);
 
-            // сохранение измененных файлов
+            // saving changed files
             _changedFileSaver.SaveFileСhanges(changedFiles);
 
-            _log.Warn($"Директор завершил операцию по сохранению изменений");
+            _log.Warn($"The director completed the operation to save the changes");
         }
 
         /// <summary>
-        /// Выполнение сравнения актуальных файлов с сохраненными в lastVersion данными
-        /// и сохраняет измененные файлы в директории
-        /// по срабатыванию таймера
+        /// Comparing actual files with data saved in lastVersion
+        /// and saves the modified files in the directory
+        /// by timer
         /// </summary>
         /// <param name="folders">IEnumerable<FileInfo> список сканируемых папок</param>
         public void MakeFilesCompare(object folders)
@@ -138,33 +138,33 @@ namespace WindowsGitService.DAL
         }
 
         /// <summary>
-        /// Выполнение сравнения актуальных файлов с сохраненными в lastVersion данными
-        /// и сохраняет измененные файлы в директории
+        /// Comparing actual files with data saved in lastVersion
+        /// and saves the modified files in the directory
         /// </summary>
         /// <param name="folders">Список сканируемых папок</param>
         public void MakeFilesCompare(IEnumerable<string> folders)
         {
-            _log.Warn($"Директор начинает сравнение файлов из ${string.Join(" ", folders)}");
+            _log.Warn($"The director starts comparing files from ${string.Join(" ", folders)}");
 
             var actualFiles = (IReadOnlyCollection<FileInfo>)_fileAccessor.GetFiles(folders);
 
-            _log.Info($"Директор получил список из {actualFiles.Count} актуальных файлов");
+            _log.Info($"The director received a list of {actualFiles.Count} actual files");
 
             IEnumerable<FileViewInfo> actualViewFiles = _fileModelBuilder.ConvertToFileInfo(actualFiles);
 
-            // _log.Info($"Директор получил преобразование файлов в FileViewInfo");
+            // _log.Info($"Director got file conversion to FileViewInfo");
 
             var changedFiles = (List<FileViewInfo>)_fileChangesTracker.GetChangedFiles(_fileChangesTracker.lastVersion, actualViewFiles);
 
-            _log.Info($"Директор получил список из {changedFiles.Count} измененных файлов");
+            _log.Info($"The director received a list of {changedFiles.Count} changed files");
 
-            // обновление списка "lastversion" актуальных файлов
+            // updating the "lastversion" list of actual files
             changedFiles = _fileChangesTracker.UpdateLastVersion(changedFiles);
 
-            // сохранение измененных файлов
+            // saving changed files
             _changedFileSaver.SaveFileСhanges(changedFiles);
 
-            _log.Warn($"Директор завершил операцию по сохранению изменений");
+            _log.Warn($"The director completed the operation to save the changes");
         }
     }
 }

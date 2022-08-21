@@ -20,16 +20,16 @@ namespace WindowsGitService.DAL
 
         public IEnumerable<FileViewInfo> GetChangedFiles(IEnumerable<FileViewInfo> oldFiles, IEnumerable<FileViewInfo> newFiles)
         {
-            _log.Info($"На сравнение пришло {oldFiles.Count()} старых файлов " +
-                      $"и {newFiles.Count()} актуальных");
+            _log.Info($"It came to comparison {oldFiles.Count()} old files " +
+                      $"and {newFiles.Count()} topical");
 
             HashSet<FileViewInfo> newHashfiles = new HashSet<FileViewInfo>(newFiles);
 
             newHashfiles.ExceptWith(oldFiles);
 
-            _log.Info($"В сравнении обнаружено {newHashfiles.Count} измененных файлов");
+            _log.Info($"In comparison found {newHashfiles.Count} changed files");
 
-            // разница между новыми и старыми объектами = измененные объекты
+            // difference between new and old objects = modified objects
             return newHashfiles.ToList();
         }
 

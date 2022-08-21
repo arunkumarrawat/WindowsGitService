@@ -21,9 +21,9 @@ namespace WindowsGitService.DAL
 
         public override string ToString()
         {
-            return $"Имя: {Name}, Формат: {Format}, Версия: {Version}" +
-                   $"создан: {Created}, последнее изменение: {LastChange}, " +
-                   $"путь: {Path}, Hash: {string.Join("", Hash)}";
+            return $"Name: {Name}, Format: {Format}, Version: {Version}" +
+                   $"Created: {Created}, Last Change: {LastChange}, " +
+                   $"Path: {Path}, Hash: {string.Join("", Hash)}";
         }
 
         public bool Equals(FileViewInfo fileView)
